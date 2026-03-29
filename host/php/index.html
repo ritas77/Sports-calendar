@@ -5,208 +5,237 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sports Event Timeline</title>
     <style>
-        /* Navbar Styling */
-        .navbar {
-            width: 100%;
-            background: #222;
-            color: #fff;
-            border-bottom: 2px solid #007bff;
-            box-shadow: 0 2px 8px #0002;
-        }
-        .navbar-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .navbar-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-        }
-        .standings-label {
-            font-weight: bold;
-            font-size: 1.08em;
-            letter-spacing: 0.5px;
-            margin-right: 18px;
-            color: #ffc107;
-            text-shadow: 0 1px 2px #0008;
-        }
-        .standings-links {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .standings-links li {
-            margin: 0 8px;
-        }
-        .standings-link {
-            color: #fff;
-            background: #007bff;
-            border-radius: 5px;
-            padding: 8px 22px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.18s;
-            box-shadow: 0 1px 4px #0002;
-            border: 1.5px solid #007bff;
-            display: inline-block;
-        }
-        .standings-link:hover {
-            background: #fff;
-            color: #007bff;
-            border-color: #0056b3;
-        }
-        .add-event-btn {
-            padding: 10px 20px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            box-shadow: 0 1px 4px #0002;
-            transition: background 0.18s;
-        }
-        .add-event-btn:hover { background: #218838; }
+    /* --- NAVBAR & FILTER STYLES (Original Logic Preserved) --- */
+    .navbar {
+        width: 100%;
+        background: #222;
+        color: #fff;
+        border-bottom: 2px solid #007bff;
+        box-shadow: 0 2px 8px #0002;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .navbar-content {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .navbar-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px 20px;
+        box-sizing: border-box;
+    }
+    .standings-label {
+        font-weight: bold;
+        font-size: 1.08em;
+        letter-spacing: 0.5px;
+        margin-right: 18px;
+        color: #ffc107;
+        text-shadow: 0 1px 2px #0008;
+    }
+    .standings-links {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .standings-links li {
+        margin: 0 8px;
+    }
+    .standings-link {
+        color: #fff;
+        background: #007bff;
+        border-radius: 5px;
+        padding: 8px 22px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 0.18s, color 0.18s;
+        box-shadow: 0 1px 4px #0002;
+        border: 1.5px solid #007bff;
+        display: inline-block;
+    }
+    .standings-link:hover {
+        background: #fff;
+        color: #007bff;
+        border-color: #0056b3;
+    }
+    .add-event-btn {
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background 0.18s;
+    }
+    .add-event-btn:hover { background: #218838; }
 
-        .navbar-filters {
-            display: flex;
-            justify-content: center;
-            padding: 12px 0;
-            background: #23272b;
-            border-top: 1px solid #333;
-        }
-        #filter-form {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #fff;
-            flex-wrap: wrap;
-        }
-        #filter-form select {
-            border-radius: 4px;
-            border: 1px solid #bbb;
-            padding: 6px 10px;
-        }
-        #filter-form button {
-            padding: 6px 14px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        button[type="submit"] { background: #007bff; color: white; }
-        #clear-filter { background: #6c757d; color: white; }
+    .navbar-filters {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 12px 0;
+        background: #23272b;
+        border-top: 1px solid #333;
+    }
+    #filter-form {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #fff;
+        flex-wrap: wrap;
+    }
+    #filter-form label { font-size: 0.95em; }
+    #filter-form input, #filter-form select {
+        border-radius: 4px;
+        border: 1px solid #bbb;
+        padding: 4px 8px;
+    }
+    #filter-form button {
+        padding: 6px 14px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+    }
 
-        /* Main Layout Styles */
-        body {
-            font-family: sans-serif;
-            background: #f4f4f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            min-height: 100vh;
-        }
-        #scroll-container {
-            width: 100%;
-            max-width: 950px;
-            height: 85vh;
-            overflow-y: auto;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 24px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
+    /* --- LAYOUT & SCROLL CONTAINER --- */
+    body {
+        font-family: sans-serif;
+        background: #f4f4f9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        min-height: 100vh;
+    }
+    #scroll-container {
+        width: 100%;
+        max-width: 1150px;
+        height: 85vh;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        margin-top: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
 
-        /* Event Row & Matchup Styling */
-        .date-group-header {
-            background: #f8f9fa;
-            padding: 10px 15px;
-            font-size: 0.9rem;
-            color: #333;
-            border-bottom: 2px solid #dee2e6;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .round {
-            background-color: #007bff;
-            color: white;
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            display: inline-block;
-            margin: 10px 0 0 15px;
-            border-radius: 4px;
-        }
-        .event-row { 
-            padding: 15px; border-bottom: 1px solid #eee; 
-            display: flex; align-items: center;
-            position: relative;
-            transition: background 0.1s;
-        }
-        .event-row:hover { background: #fcfcfc; }
-        
-        .time-part {
-            font-weight: bold;
-            color: #666;
-            min-width: 60px;
-        }
-        .matchup {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1;
-            gap: 20px;
-            margin: 0 100px; /* Provides space for status/buttons on the right */
-        }
-        .team {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 42%;
-        }
-        .team-left { justify-content: flex-end; text-align: right; }
-        .team-right { justify-content: flex-start; text-align: left; }
-        .team img { width: 24px; height: auto; flex-shrink: 0; }
-        
-        .vs-text {
-            font-weight: bold;
-            min-width: 70px;
-            text-align: center;
-            color: #007bff;
-            background: #f0f7ff;
-            padding: 4px 8px;
-            border-radius: 20px;
-        }
+    /* --- DATE HEADERS & ROUNDS --- */
+    .date-group-header {
+        background: #f8f9fa;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+        color: #555;
+        border-bottom: 2px solid #dee2e6;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+    .round {
+        background-color: #007bff;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        display: inline-block;
+        margin: 15px 0 0 20px;
+        font-weight: bold;
+    }
 
-        .status-container {
-            position: absolute;
-            right: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .status-badge { 
-            padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; 
-            text-transform: uppercase; background: #e0e0e0; font-weight: bold;
-        }
-        .status-live { background: #ff4d4d; color: white; }
-        .status-scheduled { background: #4da3ff; color: white; }
-        .status-final { background: #6c757d; color: white; }
+    /* --- MODERN EVENT ROW STYLING --- */
+    .event-row { 
+        padding: 15px 20px; 
+        border-bottom: 1px solid #f0f0f0; 
+        display: flex; 
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        transition: background 0.2s;
+    }
+    .event-row:hover { background: #fafafa; }
 
-        .desc-button {
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            background: white;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-    </style>
+    .time-part {
+        font-weight: bold;
+        color: #888;
+        font-size: 0.85rem;
+        width: 60px;
+    }
+
+    /* Centered Matchup Scoreboard */
+    .matchup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        transform: translateX(-130px); 
+        gap: 15px;
+    }
+    .team-left, .team-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 38%;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+    .team-left { justify-content: flex-end; text-align: right; }
+    .team-right { justify-content: flex-start; text-align: left; }
+    
+    .team img { 
+        width: 28px; 
+        height: 28px; 
+        object-fit: contain; 
+    }
+
+    .vs-text {
+        background: #2d2d2d;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 800;
+        min-width: 55px;
+        text-align: center;
+        font-size: 1.05rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    /* Status Badges */
+    .status-badge { 
+        padding: 5px 10px; 
+        border-radius: 4px; 
+        font-size: 0.65rem; 
+        text-transform: uppercase; 
+        font-weight: 800;
+        width: 80px;
+        text-align: center;
+    }
+    .status-live { 
+        background: #ff4d4d; 
+        color: white; 
+        animation: pulse-live 2s infinite; 
+    }
+    .status-scheduled { background: #e3f2fd; color: #007bff; }
+    .status-final { background: #f0f0f0; color: #777; }
+
+    @keyframes pulse-live {
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+        100% { opacity: 1; }
+    }
+</style>
 </head>
 <body>
 
@@ -235,159 +264,460 @@
             </form>
         </div>
     </div>
+    <p>Click on event to get details</p>
 </nav>
 
 <div id="scroll-container">
     <div id="event-list"></div>
-    <div style="display:flex; justify-content:center; gap:15px; margin:25px 0;">
-        <button id="prev-page" style="padding:10px 20px; border-radius:4px; border:1px solid #ddd; background:#fff; cursor:pointer;">&larr; Prev</button>
-        <span id="page-indicator" style="align-self:center; font-weight:bold; color: #555;"></span>
-        <button id="next-page" style="padding:10px 20px; border-radius:4px; border:1px solid #ddd; background:#fff; cursor:pointer;">Next &rarr;</button>
+    <div style="display:flex; justify-content:center; gap:10px; margin:18px 0;">
+        <button id="prev-page" style="padding:8px 18px; font-size:1em; border-radius:4px; border:1px solid #bbb; background:#f8f9fa; cursor:pointer;">Prev</button>
+        <span id="page-indicator" style="align-self:center; font-weight:bold;"></span>
+        <button id="next-page" style="padding:8px 18px; font-size:1em; border-radius:4px; border:1px solid #bbb; background:#f8f9fa; cursor:pointer;">Next</button>
     </div>
 </div>
 
 <script>
+    // Main container and event list references
+    const container = document.getElementById('scroll-container');
     const list = document.getElementById('event-list');
     let loading = false;
     let currentPage = 1;
-    let currentFilter = {};
 
-    // Initial load
+    // On page load, fetch the initial page number (closest to today) from backend, then load events
     fetch('api.php?get_initial_page=1')
         .then(resp => resp.json())
         .then(data => {
-            if (data && data.initialPage) currentPage = data.initialPage;
+            if (data && data.initialPage) {
+                currentPage = data.initialPage;
+            }
+            updatePageIndicator();
             loadEvents();
         })
-        .catch(() => loadEvents());
+        .catch(() => {
+            updatePageIndicator();
+            loadEvents();
+        });
 
-    async function loadEvents() {
-        if (loading) return;
-        loading = true;
+    // --- Data for filter dropdowns ---
+    // These arrays hold the available teams, competitions, and sports for filtering
+    let teamsData = [], competitionsData = [], sportsData = [];
 
-        let params = `?page=${currentPage}`;
-        if (currentFilter.sport) params += `&filter_sport=${encodeURIComponent(currentFilter.sport)}`;
-        if (currentFilter.competition) params += `&filter_competition=${encodeURIComponent(currentFilter.competition)}`;
-        if (currentFilter.team) params += `&filter_team=${encodeURIComponent(currentFilter.team)}`;
-
-        try {
-            const response = await fetch(`api.php${params}`);
-            const data = await response.json();
-
-            list.innerHTML = '';
-            document.getElementById('page-indicator').textContent = `Page ${currentPage}`;
-
-            if (data.length > 0) {
-                const fragment = document.createDocumentFragment();
-                let lastDate = null;
-
-                data.forEach(event => {
-                    const [date, fullTime] = event.start_datetime.split(' ');
-                    const time = fullTime.substring(0, 5);
-
-                    if (date !== lastDate) {
-                        const header = document.createElement('div');
-                        header.className = 'date-group-header';
-                        header.innerHTML = `<strong>${date}</strong>`;
-                        fragment.appendChild(header);
-                        lastDate = date;
+    // Fetches filter data (teams, competitions, sports) from global or from add_event.php, then populates dropdowns
+    function fetchFilterDataAndPopulate() {
+        if (window.teamsData && window.competitionsData && window.sportsData) {
+            teamsData = window.teamsData;
+            competitionsData = window.competitionsData;
+            sportsData = window.sportsData;
+            fillAllFilterDropdowns();
+        } else {
+            fetch('add_event.php')
+                .then(resp => resp.text())
+                .then(html => {
+                    // Parse out the JS arrays from the HTML source
+                    const teamsMatch = html.match(/const teamsData = (\[.*?\]);/s);
+                    const compsMatch = html.match(/const competitionsData = (\[.*?\]);/s);
+                    const sportsMatch = html.match(/const sportsData = (\[.*?\]);/s);
+                    if (teamsMatch) {
+                        teamsData = JSON.parse(teamsMatch[1]);
+                        window.teamsData = teamsData;
                     }
-
-                    const roundDiv = document.createElement('div');
-                    roundDiv.className = 'round';
-                    roundDiv.textContent = `${event.season_label} - ${event.round_name}`;
-                    fragment.appendChild(roundDiv);
-
-                    const row = document.createElement('div');
-                    row.className = 'event-row';
-                    row.style.cursor = 'pointer';
-                    row.onclick = () => {
-                        sessionStorage.setItem('currentEvent', JSON.stringify(event));
-                        window.location.href = 'event_detail.html';
-                    };
-
-                    const vsText = (event.score_first !== null && event.score_second !== null) 
-                        ? `${event.score_first} - ${event.score_second}` 
-                        : 'VS';
-
-                    row.innerHTML = `
-                        <span class="time-part">${time}</span>
-                        <div class="matchup">
-                            <div class="team team-left">
-                                <span>${event.team1_name}</span>
-                                <img src="${event.team1_logo}">
-                            </div>
-                            <span class="vs-text">${vsText}</span>
-                            <div class="team team-right">
-                                <img src="${event.team2_logo}">
-                                <span>${event.team2_name}</span>
-                            </div>
-                        </div>
-                        <div class="status-container">
-                            <span class="status-badge status-${event.status.toLowerCase()}">${event.status}</span>
-                            <button class="desc-button" onclick="event.stopPropagation(); showEditForm(this, ${JSON.stringify(event).replace(/"/g, '&quot;')})">Edit</button>
-                        </div>
-                    `;
-                    fragment.appendChild(row);
-
-                    if (event.description) {
-                        const desc = document.createElement('div');
-                        desc.className = 'event-row';
-                        desc.style.cssText = "background:#fbfbfb; font-style:italic; font-size:0.9em; color:#777; padding-left:75px;";
-                        desc.textContent = event.description;
-                        fragment.appendChild(desc);
+                    if (compsMatch) {
+                        competitionsData = JSON.parse(compsMatch[1]);
+                        window.competitionsData = competitionsData;
                     }
+                    if (sportsMatch) {
+                        sportsData = JSON.parse(sportsMatch[1]);
+                        window.sportsData = sportsData;
+                    }
+                    fillAllFilterDropdowns();
                 });
-                list.appendChild(fragment);
-            }
-        } catch (err) { console.error(err); }
-        finally { loading = false; }
+        }
     }
 
-    // Standard Form logic (Simplified for clarity)
-    function showEditForm(btn, event) {
-        const existing = document.getElementById('active-edit-form');
-        if (existing) existing.remove();
-        
-        const form = document.createElement('form');
-        form.id = 'active-edit-form';
-        form.action = 'insert.php';
-        form.method = 'POST';
-        form.style.cssText = "margin: 10px 15px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);";
-        
-        form.innerHTML = `
-            <input type="hidden" name="event_id" value="${event.event_id}">
-            <textarea name="description" style="width:100%; height:60px; margin-bottom:10px; border-radius:4px; border:1px solid #ccc; padding:8px;">${event.description || ''}</textarea>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <input type="number" name="score_first" value="${event.score_first || ''}" placeholder="Score 1" style="width:80px; padding:5px;">
-                <input type="number" name="score_second" value="${event.score_second || ''}" placeholder="Score 2" style="width:80px; padding:5px;">
-                <select name="status" style="padding:5px;">
-                    <option value="scheduled" ${event.status=='scheduled'?'selected':''}>Scheduled</option>
-                    <option value="live" ${event.status=='live'?'selected':''}>Live</option>
-                    <option value="final" ${event.status=='final'?'selected':''}>Final</option>
-                </select>
-            </div>
-            <button type="submit" style="background:#28a745; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Save</button>
-            <button type="button" onclick="this.parentElement.remove()" style="background:#6c757d; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; margin-left:10px;">Cancel</button>
-        `;
-        btn.closest('.event-row').after(form);
+    // Populates all filter dropdowns (sport, competition, team) with available options
+    function fillAllFilterDropdowns() {
+        const sportSelect = document.getElementById('filter-sport');
+        while (sportSelect.options.length > 1) sportSelect.remove(1);
+        sportsData.forEach(sport => {
+            const opt = document.createElement('option');
+            opt.value = sport.sport_name;
+            opt.textContent = sport.sport_name;
+            sportSelect.appendChild(opt);
+        });
+        fillCompetitionDropdown();
+        fillTeamDropdown();
     }
 
-    // Pagination
-    document.getElementById('prev-page').onclick = () => { if(currentPage > 1) { currentPage--; loadEvents(); } };
-    document.getElementById('next-page').onclick = () => { currentPage++; loadEvents(); };
+    // Populates the competition dropdown, filtered by selected sport
+    function fillCompetitionDropdown() {
+        const compSelect = document.getElementById('filter-competition');
+        const sportVal = document.getElementById('filter-sport').value;
+        while (compSelect.options.length > 1) compSelect.remove(1);
+        let comps = competitionsData;
+        if (sportVal) {
+            comps = comps.filter(c => c._sport_name === sportVal);
+        }
+        comps.forEach(comp => {
+            const opt = document.createElement('option');
+            opt.value = comp.comp_id;
+            opt.textContent = comp.comp_name;
+            compSelect.appendChild(opt);
+        });
+    }
 
-    // Filters (Standard Logic)
-    document.getElementById('filter-form').onsubmit = (e) => {
-        e.preventDefault();
-        currentFilter = {
-            sport: document.getElementById('filter-sport').value,
-            competition: document.getElementById('filter-competition').value,
-            team: document.getElementById('filter-team').value
-        };
-        currentPage = 1;
+    // Populates the team dropdown, filtered by selected competition
+    function fillTeamDropdown() {
+        const teamSelect = document.getElementById('filter-team');
+        const compVal = document.getElementById('filter-competition').value;
+        while (teamSelect.options.length > 1) teamSelect.remove(1);
+        let teams = teamsData;
+        if (compVal) {
+            teams = teams.filter(t => t._comp_id == compVal);
+        }
+        teams.forEach(team => {
+            const opt = document.createElement('option');
+            opt.value = team.display_name;
+            opt.textContent = team.display_name;
+            teamSelect.appendChild(opt);
+        });
+    }
+
+    // When sport changes, update competitions and teams accordingly
+    document.getElementById('filter-sport').addEventListener('change', function() {
+        fillCompetitionDropdown();
+        fillTeamDropdown();
+    });
+    // When competition changes, update teams accordingly
+    document.getElementById('filter-competition').addEventListener('change', function() {
+        fillTeamDropdown();
+    });
+
+    fetchFilterDataAndPopulate();
+
+    
+
+// Helper to extract only the date part from a datetime string
+function getISODate(dateTimeString) {
+    return dateTimeString.split(' ')[0]; 
+}
+
+
+// Loads events for the current page and filter, and renders them in the event list
+async function loadEvents(direction, filter = {}) {
+    if (loading) return;
+    loading = true;
+
+    // Build query string for filters and pagination
+    let filterParams = `?page=${currentPage}`;
+    if (currentFilter.sport) filterParams += `&filter_sport=${encodeURIComponent(currentFilter.sport)}`;
+    if (currentFilter.competition) filterParams += `&filter_competition=${encodeURIComponent(currentFilter.competition)}`;
+    if (currentFilter.team) filterParams += `&filter_team=${encodeURIComponent(currentFilter.team)}`;
+
+    try {
+        const response = await fetch(`api.php${filterParams}`);
+        const data = await response.json();
+
+        list.innerHTML = '';
+        if (data.length > 0) {
+            const fragment = document.createDocumentFragment();
+            // Track the date of the previous event in this batch for grouping
+            let lastDateInBatch = null;
+            data.forEach(event => {
+                const currentDate = event.start_datetime.split(' ')[0];
+                const currentTime = event.start_datetime.split(' ')[1].substring(0, 5);
+
+                // If this event is on a new date, add a date header
+                if (currentDate !== lastDateInBatch) {
+                    const dateHeader = document.createElement('div');
+                    dateHeader.className = 'date-group-header';
+                    dateHeader.innerHTML = `<strong>${currentDate}</strong>`;
+                    fragment.appendChild(dateHeader);
+                }
+                let descRow = document.createElement('div');
+                lastDateInBatch = currentDate;
+
+                // Description row for event (if present)
+                descRow.className = 'event-row';
+                descRow.style.backgroundColor = '#f9f9f9';
+                descRow.style.fontStyle = 'italic';
+                descRow.style.paddingLeft = '50px';
+                if (event.description !== null) {
+                    descRow.textContent = event.description;
+                } else {
+                    descRow.textContent = 'No description available.';
+                }
+
+                // Main event row (clickable, shows teams, time, score, etc.)
+                const row = document.createElement('div');
+                row.className = 'event-row';
+                row.dataset.timestamp = event.start_datetime;
+                row.style.cursor = 'pointer';
+                // When clicked, store event in sessionStorage and go to detail page
+                row.addEventListener('click', function() {
+                    sessionStorage.setItem('currentEvent', JSON.stringify(event));
+                    window.location.href = 'event_detail.html';
+                });
+
+                // Show score if available, otherwise 'vs'
+                const vsText = (event.score_first !== null && event.score_second !== null) 
+                    ? `${event.score_first} - ${event.score_second}` 
+                    : 'vs';
+
+                row.innerHTML = `
+                    <span class="time-part">${currentTime}</span>
+                    <div class="matchup">
+                        <div class="team-left">
+                            <span class="team-name">${event.team1_name}</span>
+                            <img src="${event.team1_logo}" alt="Profile Image" width="20px" height="auto" />
+                        </div>
+                        <span class="vs-text">${vsText}</span>
+                        <div class="team-right">
+                            <img src="${event.team2_logo}" alt="Profile Image" width="20px" height="auto" />
+                            <span class="team-name">${event.team2_name}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Right-side container for status badge and edit button
+                const rightContainer = document.createElement('div');
+                rightContainer.style.display = 'flex';
+                rightContainer.style.alignItems = 'center';
+                rightContainer.style.gap = '8px';
+                rightContainer.style.position = 'absolute';
+                rightContainer.style.right = '15px';
+
+                // Status badge (shows event status: scheduled, live, final)
+                const statusBadge = document.createElement('span');
+                statusBadge.className = `status-badge status-${event.status.toLowerCase()}`;
+                statusBadge.textContent = event.status;
+                rightContainer.appendChild(statusBadge);
+
+                // Edit button for event (opens form for editing description, score, status)
+                const button = document.createElement('button');
+                button.textContent = 'Edit Event';
+                button.className = 'desc-button';
+                button.style.width = '180px';
+                button.addEventListener('click', function(clickEvent) {
+                    clickEvent.stopPropagation();
+                    // Create a form for editing event details
+                    const form = document.createElement('form');
+                    form.action = 'insert.php';
+                    form.method = 'POST';
+                    form.style.marginTop = '10px';
+                    form.style.padding = '10px';
+                    form.style.backgroundColor = '#f9f9f9';
+                    form.style.border = '1px solid #ddd';
+                    form.style.borderRadius = '4px';
+                    // Hidden input for event_id (used for unique identification)
+                    const eventIdInput = document.createElement('input');
+                    eventIdInput.type = 'hidden';
+                    eventIdInput.name = 'event_id';
+                    eventIdInput.value = event.event_id || '';
+                    form.appendChild(eventIdInput);
+                    // Description textarea
+                    const textarea = document.createElement('textarea');
+                    textarea.name = 'description';
+                    textarea.value = event.description || '';
+                    textarea.placeholder = 'Enter event description...';
+                    textarea.style.width = '100%';
+                    textarea.style.minHeight = '60px';
+                    textarea.style.marginBottom = '8px';
+                    textarea.style.padding = '8px';
+                    textarea.style.border = '1px solid #ccc';
+                    textarea.style.borderRadius = '4px';
+                    form.appendChild(textarea);
+                    // Score fields (editable)
+                    const scoreDiv = document.createElement('div');
+                    scoreDiv.style.display = 'flex';
+                    scoreDiv.style.gap = '10px';
+                    scoreDiv.style.margin = '8px 0';
+                    const score1 = document.createElement('input');
+                    score1.type = 'number';
+                    score1.name = 'score_first';
+                    score1.placeholder = 'Score 1';
+                    score1.value = event.score_first !== null ? event.score_first : '';
+                    score1.style.width = '80px';
+                    scoreDiv.appendChild(score1);
+                    const score2 = document.createElement('input');
+                    score2.type = 'number';
+                    score2.name = 'score_second';
+                    score2.placeholder = 'Score 2';
+                    score2.value = event.score_second !== null ? event.score_second : '';
+                    score2.style.width = '80px';
+                    scoreDiv.appendChild(score2);
+                    form.appendChild(scoreDiv);
+                    // Status select dropdown
+                    const statusLabel = document.createElement('label');
+                    statusLabel.textContent = 'Status:';
+                    statusLabel.style.marginRight = '8px';
+                    form.appendChild(statusLabel);
+                    const statusSelect = document.createElement('select');
+                    statusSelect.name = 'status';
+                    ['scheduled', 'live', 'final'].forEach(opt => {
+                        const option = document.createElement('option');
+                        option.value = opt;
+                        option.textContent = opt.charAt(0).toUpperCase() + opt.slice(1);
+                        if (event.status && event.status.toLowerCase() === opt) option.selected = true;
+                        statusSelect.appendChild(option);
+                    });
+                    form.appendChild(statusSelect);
+                    // Save, Delete, and Cancel buttons (UI only, no comments for trivial button creation)
+                    const submitBtn = document.createElement('button');
+                    submitBtn.type = 'submit';
+                    submitBtn.textContent = 'Save Changes';
+                    submitBtn.style.backgroundColor = '#4CAF50';
+                    submitBtn.style.color = 'white';
+                    submitBtn.style.border = 'none';
+                    submitBtn.style.padding = '8px 16px';
+                    submitBtn.style.borderRadius = '4px';
+                    submitBtn.style.cursor = 'pointer';
+                    form.appendChild(submitBtn);
+                    // Delete button (only if description exists)
+                    if (event.description) {
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.type = 'button';
+                        deleteBtn.textContent = 'Delete Description';
+                        deleteBtn.style.backgroundColor = '#f44336';
+                        deleteBtn.style.color = 'white';
+                        deleteBtn.style.border = 'none';
+                        deleteBtn.style.padding = '8px 16px';
+                        deleteBtn.style.borderRadius = '4px';
+                        deleteBtn.style.cursor = 'pointer';
+                        deleteBtn.style.marginLeft = '8px';
+                        deleteBtn.addEventListener('click', function() {
+                            form.action = 'delete.php';
+                            form.submit();
+                        });
+                        form.appendChild(deleteBtn);
+                    }
+                    // Cancel button (removes form, restores edit button)
+                    const cancelBtn = document.createElement('button');
+                    cancelBtn.type = 'button';
+                    cancelBtn.textContent = 'Cancel';
+                    cancelBtn.style.backgroundColor = '#f44336';
+                    cancelBtn.style.color = 'white';
+                    cancelBtn.style.border = 'none';
+                    cancelBtn.style.padding = '8px 16px';
+                    cancelBtn.style.borderRadius = '4px';
+                    cancelBtn.style.cursor = 'pointer';
+                    cancelBtn.style.marginLeft = '8px';
+                    cancelBtn.addEventListener('click', function() {
+                        form.remove();
+                        button.style.visibility = 'visible';
+                    });
+                    form.appendChild(cancelBtn);
+                    // Insert form after the row and hide edit button
+                    row.after(form);
+                    button.style.visibility = 'hidden';
+                    setTimeout(() => textarea.focus(), 100);
+                });
+                rightContainer.appendChild(button);
+                row.appendChild(rightContainer);
+                // Show round and season label above event row
+                const roundDiv = document.createElement('div');
+                roundDiv.className = 'round';
+                roundDiv.textContent = event.season_label + ' - ' + event.round_name;
+                fragment.appendChild(roundDiv);
+                fragment.appendChild(row);
+                // Add description row if it exists
+                if (event.description !== null) {
+                    fragment.appendChild(descRow);
+                }
+            });
+            list.appendChild(fragment);
+        }
+    } catch (err) {
+        console.error(err);
+    } finally {
+        loading = false;
+    }
+}
+
+// Holds the current filter state for events
+let currentFilter = {};
+
+// Pagination controls: previous/next page buttons
+document.getElementById('prev-page').addEventListener('click', function() {
+    if (currentPage > 1) {
+        currentPage--;
         loadEvents();
-    };
+    }
+});
+document.getElementById('next-page').addEventListener('click', function() {
+    currentPage++;
+    loadEvents();
+});
+
+// Updates the page indicator display
+function updatePageIndicator() {
+    document.getElementById('page-indicator').textContent = `Page ${currentPage}`;
+}
+
+// After each load, update the page indicator
+const origLoadEvents = loadEvents;
+loadEvents = async function() {
+    await origLoadEvents();
+    updatePageIndicator();
+};
+
+// Filter form logic: when filter is submitted, update filter state and reload events (starting from closest-to-today page)
+document.getElementById('filter-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const sport = document.getElementById('filter-sport').value;
+    const competition = document.getElementById('filter-competition').value;
+    const team = document.getElementById('filter-team').value;
+    currentFilter = {};
+    if (sport) currentFilter.sport = sport;
+    if (competition) currentFilter.competition = competition;
+    if (team) currentFilter.team = team;
+    // Fetch initial page for new filter (closest to today)
+    let filterParams = '';
+    if (sport) filterParams += `&filter_sport=${encodeURIComponent(sport)}`;
+    if (competition) filterParams += `&filter_competition=${encodeURIComponent(competition)}`;
+    if (team) filterParams += `&filter_team=${encodeURIComponent(team)}`;
+    fetch(`api.php?get_initial_page=1${filterParams}`)
+        .then(resp => resp.json())
+        .then(data => {
+            if (data && data.initialPage) {
+                currentPage = data.initialPage;
+            } else {
+                currentPage = 1;
+            }
+            updatePageIndicator();
+            loadEvents();
+        })
+        .catch(() => {
+            currentPage = 1;
+            updatePageIndicator();
+            loadEvents();
+        });
+});
+
+// Clear filter button: resets all filters and reloads events (starting from closest-to-today page)
+document.getElementById('clear-filter').addEventListener('click', function() {
+    document.getElementById('filter-sport').value = '';
+    document.getElementById('filter-competition').value = '';
+    document.getElementById('filter-team').value = '';
+    currentFilter = {};
+    // Fetch initial page for cleared filter
+    fetch('api.php?get_initial_page=1')
+        .then(resp => resp.json())
+        .then(data => {
+            if (data && data.initialPage) {
+                currentPage = data.initialPage;
+            } else {
+                currentPage = 1;
+            }
+            updatePageIndicator();
+            loadEvents();
+        })
+        .catch(() => {
+            currentPage = 1;
+            updatePageIndicator();
+            loadEvents();
+        });
+});
 </script>
+
 </body>
 </html>
