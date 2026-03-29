@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standings</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f9; margin:0; }
+        .container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 30px; }
+        h1 { text-align: center; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px 8px; border: 1px solid #ddd; text-align: center; }
+        th { background: #007bff; color: #fff; }
+        tr:nth-child(even) { background: #f8f9fa; }
+        .back-btn { margin: 20px 0 0 0; display: inline-block; background: #007bff; color: #fff; padding: 8px 18px; border-radius: 4px; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-btn">&larr; Back to Timeline</a>
+    <h1 id="standings-title">Standings</h1>
+    <div id="standings-table"></div>
+</div>
+<script>
+function getQueryParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+}
+
+const league = getQueryParam('league');
+let endpoint = '', title = '';
+if (league === 'nba_east') {
+    endpoint = 'standings_api.php?league=nba_east';
+    title = 'NBA Eastern Conference Standings';
+} else if (league === 'nba_west') {
+    endpoint = 'standings_api.php?league=nba_west';
+    title = 'NBA Western Conference Standings';
+} else if (league === 'premier_league') {
+    endpoint = 'standings_api.php?league=premier_league';
+    title = 'Premier League Standings';
+} else if (league === 'ekstraklasa') {
+    endpoint = 'standings_api.php?league=ekstraklasa';
+    title = 'Ekstraklasa Standings';
+} else {
+    document.getElementById('standings-title').textContent = 'Unknown Standings';
+}
+if (title) document.getElementById('standings-title').textContent = title;
+
+if (endpoint) {
+    fetch(endpoint)
+        .then(resp => resp.json())
+        .then(data => {
+            if (!data || !data.columns || !data.rows) {
+                document.getElementById('standings-table').innerHTML = '<p>No data available.</p>';
+                return;
+            }
+            let html = '<table><thead><tr>';
+            data.columns.forEach(col => html += `<th>${col}</th>`);
+            html += '</tr></thead><tbody>';
+            data.rows.forEach(row => {
+                html += '<tr>';
+                row.forEach(cell => html += `<td>${cell}</td>`);
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            document.getElementById('standings-table').innerHTML = html;
+        })
+        .catch(() => {
+            document.getElementById('standings-table').innerHTML = '<p>Error loading standings.</p>';
+        });
+}
+</script>
+</body>
+</html>
