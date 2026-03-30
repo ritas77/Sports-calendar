@@ -4,3 +4,4 @@ I used AI for:
 - fetching the data from sql queries and sending the JSON response, as i did not know, how to do it (now i know)
 - displaying the received as JSON response data as standings
 - creating the form to add event with some blocked fields
+- creating the nginx.conf file
