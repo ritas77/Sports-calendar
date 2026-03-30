@@ -1,7 +1,12 @@
 <?php
 // API endpoint for returning league standings as JSON for different leagues
 header('Content-Type: application/json');
-require_once 'db.php'; // expects $pdo connection
+$host = getenv('POSTGRES_HOST') ?: 'db';
+$db = getenv('POSTGRES_DB');
+$user = getenv('POSTGRES_USER');
+$pass = getenv('POSTGRES_PASSWORD');
+$port = getenv('POSTGRES_PORT') ?: '5432';
+$pdo = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
 // Get league parameter from query string
 $league = $_GET['league'] ?? '';
