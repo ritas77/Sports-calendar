@@ -1,0 +1,6 @@
+I used AI for:
+- inserts to database, as not writing lots of INSERT INTO lines saved me a lot of time
+- styling my website in css, as i am not very good at frontend, especially at styling
+- fetching the data from sql queries and sending the JSON response, as i did not know, how to do it (now i know)
+- displaying the received as JSON response data as standings
+- creating the form to add event with some blocked fields
